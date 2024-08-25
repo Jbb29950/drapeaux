@@ -1,0 +1,69 @@
+<ion-header>
+  <ion-toolbar>
+    <ion-tabs>
+      <ion-tab-bar slot="top">
+        <ion-tab-button routerLink="/home" (click)="replay()">
+          <ion-icon name="book-outline"></ion-icon>
+          <ion-label>Reviser</ion-label>
+        </ion-tab-button>
+      </ion-tab-bar>
+    </ion-tabs>
+  </ion-toolbar>
+</ion-header>
+
+<ion-content [scrollY]="!disableScroll">
+  <!-- Afficher le drapeau aléatoire -->
+  <ion-card *ngIf="randomCountry && randomCountry.flag">
+    <ion-card-header> Devinez le pays : </ion-card-header>
+    <ion-card-content *ngIf="randomCountry.flag.officialflag.svg">
+      <img
+        [src]="randomCountry.flag.officialflag.svg"
+        width="100"
+        height="auto"
+        alt="Drapeau"
+      />
+    </ion-card-content>
+  </ion-card>
+
+  <!-- Formulaire pour la réponse de l'utilisateur -->
+  <ion-item>
+    <ion-label position="floating">Votre réponse :</ion-label>
+    <ion-input
+      [(ngModel)]="userAnswer"
+      type="text"
+      color="success"
+      (focus)="onFocus()"
+      (blur)="onBlur()"
+    ></ion-input>
+  </ion-item>
+
+  <!-- Bouton pour afficher l'indice -->
+  <ion-button expand="block" (click)="showIndice()" *ngIf="!gameOver"
+    >Afficher un indice</ion-button
+  >
+
+  <!-- Affichage de l'indice -->
+  <ion-item *ngIf="indice"> Indice : {{ indice }} </ion-item>
+
+  <!-- Bouton pour vérifier la réponse -->
+  <ion-button expand="block" (click)="checkAnswer()" *ngIf="!gameOver"
+    >Vérifier</ion-button
+  >
+
+  <!-- Bouton rejouer -->
+  <ion-button expand="block" (click)="replay()" *ngIf="gameOver"
+    >Rejouer</ion-button
+  >
+
+  <!-- Afficher le score -->
+  <ion-item>
+    Score : {{ score }} / {{totalQuestions}}
+    <audio id="applauseAudio">
+      <source
+        src="assets/sf_applaudissements_enfants_01.mp3"
+        type="audio/mp3"
+      />
+     votre navigateur ne prend pas en charge l'audio.
+    </audio>
+  </ion-item>
+</ion-content>
